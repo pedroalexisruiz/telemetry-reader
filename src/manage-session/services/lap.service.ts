@@ -60,4 +60,29 @@ export class LapService {
       console.log('Error guardando datos de vuelta');
     }
   }
+
+  async bulkSave(
+    sessionsHistoryData: PacketSessionHistoryData[],
+  ): Promise<LapData[]> {
+    let laps: LapData[] = [];
+    sessionsHistoryData.forEach((sessionHistoryPerParticipant) => {
+      laps = [
+        ...laps,
+        ...this.lapDataFactory.toEntity(sessionHistoryPerParticipant),
+      ];
+    });
+
+    try {
+      const result = await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(LapData)
+        .values(laps)
+        .execute();
+      return result.generatedMaps as LapData[];
+    } catch (error) {
+      console.log(error);
+      console.log('Error guardando datos de vuelta');
+    }
+  }
 }

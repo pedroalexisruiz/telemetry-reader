@@ -12,6 +12,7 @@ import { ClassificationService } from './services/classification.service';
 import { LapService } from './services/lap.service';
 import { PacketSessionDataService } from './services/packetsessiondata.service';
 import { ParticipantsService } from './services/participants.service';
+import { SessionManager } from './model/sessionManager';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { ParticipantsService } from './services/participants.service';
     FinalClassificationDataFactory,
     LapDataFactory,
     ClassificationService,
-    LapService
+    LapService,
+    SessionManager
   ],
 })
 export class ManageSessionModule {}

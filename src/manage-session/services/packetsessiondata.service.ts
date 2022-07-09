@@ -23,6 +23,11 @@ export class PacketSessionDataService {
   }
 
   async save(packetSessionData: PacketSessionData): Promise<PacketSessionData> {
-    return this.sessionsRepository.save(packetSessionData);
+    try {
+      return this.sessionsRepository.save(packetSessionData);
+    } catch (error) {
+      console.log(error);
+      console.log('Error guardando sesión');
+    }
   }
 }
