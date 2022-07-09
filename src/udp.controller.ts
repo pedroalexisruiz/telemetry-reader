@@ -8,7 +8,7 @@ import { ParsedMessage } from './types';
 
 @UDPGateWay()
 @Controller()
-export class UDPController {
+export class ManageSessionController {
   constructor(private sessionManager: SessionManager) {}
 
   @IncomingMessage()

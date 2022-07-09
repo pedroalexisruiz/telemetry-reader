@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UDPController } from 'src/udp.controller';
+import { ManageSessionController } from 'src/udp.controller';
 import { FinalClassificationDataFactory } from './factories/final-classification-data.factory';
 import { LapDataFactory } from './factories/lap-data.factory';
 import { ParticipantsDataFactory } from './factories/participants-data.factory';
@@ -23,7 +23,7 @@ import { SessionManager } from './model/sessionManager';
       LapData,
     ]),
   ],
-  controllers: [UDPController],
+  controllers: [ManageSessionController],
   providers: [
     PacketSessionDataService,
     ParticipantsService,

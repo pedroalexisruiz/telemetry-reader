@@ -4,7 +4,7 @@ import { ClassificationService } from '../services/classification.service';
 import { LapService } from '../services/lap.service';
 import { PacketSessionDataService } from '../services/packetsessiondata.service';
 import { ParticipantsService } from '../services/participants.service';
-import { PACKETS } from '../../myconstants';
+import { PACKETS } from '../../myconstants/packets';
 import { PacketSessionHistoryData } from './PacketSessionHistoryData';
 import { PacketSessionData } from './PacketSessionData';
 import { PacketParticipantsData } from './PacketParticipantsData';
