@@ -2,7 +2,7 @@ import { LapData } from './LapData';
 import { PacketHeader } from './PacketHeader';
 import { TyreStintHistoryData } from './TyreStintHistoryData';
 
-export interface SessionHistoryData {
+export interface PacketSessionHistoryData {
   m_header: PacketHeader;
   m_carIdx: number; // Index of the car this lap data relates to
   m_numLaps: number; // Num laps in the data (including current partial lap)

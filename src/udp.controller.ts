@@ -3,6 +3,7 @@ import { Ctx, Payload } from '@nestjs/microservices';
 import { F1TelemetryClient } from './client';
 import { IncomingMessage, UDPGateWay } from './decorators';
 import { ClassificationService } from './manage-session/services/classification.service';
+import { LapService } from './manage-session/services/lap.service';
 import { PacketSessionDataService } from './manage-session/services/packetsessiondata.service';
 import { ParticipantsService } from './manage-session/services/participants.service';
 import { PACKETS } from './myconstants';
@@ -16,16 +17,18 @@ export class UDPController {
   imprimirResultados = true;
   saveLapTimes = false;
   m_sessionUID: string = null;
+  pilotsInSession: number;
+  pilotsSaved: number = 0;
 
   constructor(
     private packetSessionDataService: PacketSessionDataService,
     private participantsService: ParticipantsService,
     private classificationService: ClassificationService,
+    private lapService: LapService,
   ) {}
 
   @IncomingMessage()
   public async message(@Payload() data, @Ctx() ctx: UdpContext) {
-    let _a;
     const parsedMsg: ParsedMessage | undefined =
       F1TelemetryClient.parseBufferMessage(data);
     if (
@@ -34,7 +37,8 @@ export class UDPController {
       this.imprimiParticipantes
     ) {
       console.log('guardo participantes');
-      this.participantsService.saveAll(parsedMsg.packetData.data);
+      await this.participantsService.saveAll(parsedMsg.packetData.data);
+      this.pilotsInSession = parsedMsg.packetData.data.m_numActiveCars;
       this.imprimiParticipantes = false;
     }
 
@@ -54,16 +58,14 @@ export class UDPController {
       parsedMsg.packetID === PACKETS.sessionHistory &&
       this.saveLapTimes
     ) {
-      // console.log({
-      //   parsed:
-      //     (_a =
-      //       parsedMsg === null || parsedMsg === void 0
-      //         ? void 0
-      //         : parsedMsg.packetData) === null || _a === void 0
-      //       ? void 0
-      //       : _a.data,
-      // });
-      this.saveLapTimes = false;
+      if (this.pilotsSaved < this.pilotsInSession) {
+        console.log('Guardo tiempos de vuelta');
+        this.lapService.saveAll(parsedMsg.packetData.data);
+        this.pilotsSaved++;
+      }
+      if (this.pilotsSaved === this.pilotsInSession) {
+        this.saveLapTimes = false;
+      }
     }
     if (parsedMsg && parsedMsg.packetID === PACKETS.session) {
       const {
@@ -83,6 +85,9 @@ export class UDPController {
         this.m_sessionUID = m_sessionUID;
         this.imprimiParticipantes = true;
         this.imprimirResultados = true;
+        this.saveLapTimes = false;
+        this.pilotsSaved = 0;
+        this.pilotsInSession = 0;
       }
     }
     return data;

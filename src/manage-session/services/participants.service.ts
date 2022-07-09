@@ -48,13 +48,13 @@ export class ParticipantsService {
       packetParticipantsData,
     );
     try {
-      const result = await this.dataSource
+      await this.dataSource
         .createQueryBuilder()
         .insert()
         .into(ParticipantData)
         .values(participants)
         .execute();
-      return result.generatedMaps as ParticipantData[];
+      return participants;
     } catch (error) {
       console.log('Error guardando participantes');
     }

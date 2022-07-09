@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ManageSessionModule } from './manage-session/ManageSession.module';
 import { FinalClassificationData } from './manage-session/model/ClassificationData';
+import { LapData } from './manage-session/model/LapData';
 import { PacketSessionData } from './manage-session/model/PacketSessionData';
 import { ParticipantData } from './manage-session/model/ParticipantData';
 
@@ -14,7 +15,12 @@ import { ParticipantData } from './manage-session/model/ParticipantData';
       username: 'root',
       password: '',
       database: 'f1_telemetry',
-      entities: [PacketSessionData, ParticipantData, FinalClassificationData],
+      entities: [
+        PacketSessionData,
+        ParticipantData,
+        FinalClassificationData,
+        LapData,
+      ],
     }),
     ManageSessionModule,
   ],
