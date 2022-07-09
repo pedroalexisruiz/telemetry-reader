@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SocketType, UdpServer } from './server';
+import * as compression from 'compression';
 
 async function bootstrap() {
   // const app = await NestFactory.create(AppModule);
@@ -21,6 +22,8 @@ async function bootstrap() {
       },
     }),
   });
+  app.use(compression());
+
   await app.startAllMicroservices();
   await app.listen(hybridAppConfig.port, hybridAppConfig.host);
 }

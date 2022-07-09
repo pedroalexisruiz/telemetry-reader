@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { ManageSessionModule } from './manage-session/ManageSession.module';
 import { FinalClassificationData } from './manage-session/model/ClassificationData';
 import { LapData } from './manage-session/model/LapData';
@@ -8,13 +9,14 @@ import { ParticipantData } from './manage-session/model/ParticipantData';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'f1_telemetry',
+      type: process.env.DATABASE_TYPE as any,
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT, 10),
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       entities: [
         PacketSessionData,
         ParticipantData,
