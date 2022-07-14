@@ -13,6 +13,7 @@ import { LapService } from './services/lap.service';
 import { PacketSessionDataService } from './services/packetsessiondata.service';
 import { ParticipantsService } from './services/participants.service';
 import { SessionManager } from './model/sessionManager';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -25,6 +26,28 @@ import { SessionManager } from './model/sessionManager';
   ],
   controllers: [ManageSessionController],
   providers: [
+    {
+      provide: 'DATA_SOURCE',
+      useFactory: async () => {
+        const dataSource = new DataSource({
+          type: process.env.DATABASE_TYPE as any,
+          host: process.env.DATABASE_HOST,
+          port: parseInt(process.env.DATABASE_PORT, 10),
+          username: process.env.DATABASE_USER,
+          password: process.env.DATABASE_PASSWORD,
+          database: process.env.DATABASE_NAME,
+          entities: [
+            PacketSessionData,
+            ParticipantData,
+            FinalClassificationData,
+            LapData,
+          ],
+          synchronize: false,
+          name: 'assetoCorsaConnection',
+        });
+        return dataSource.initialize();
+      },
+    },
     PacketSessionDataService,
     ParticipantsService,
     ParticipantsDataFactory,
@@ -32,7 +55,7 @@ import { SessionManager } from './model/sessionManager';
     LapDataFactory,
     ClassificationService,
     LapService,
-    SessionManager
+    SessionManager,
   ],
 })
 export class ManageSessionModule {}

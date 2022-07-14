@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ParsedMessage } from 'src/types';
 import { ClassificationService } from '../services/classification.service';
 import { LapService } from '../services/lap.service';
@@ -9,6 +9,7 @@ import { PacketSessionHistoryData } from './PacketSessionHistoryData';
 import { PacketSessionData } from './PacketSessionData';
 import { PacketParticipantsData } from './PacketParticipantsData';
 import { PacketFinalClassificationData } from './PacketFinalClassificationData';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class SessionManager {
@@ -27,6 +28,7 @@ export class SessionManager {
     private participantsService: ParticipantsService,
     private classificationService: ClassificationService,
     private lapService: LapService,
+    @Inject('DATA_SOURCE') private datasource: DataSource,
   ) {}
 
   async handlePacket(parsedMsg: ParsedMessage) {
@@ -72,6 +74,16 @@ export class SessionManager {
     await this.classificationService.saveAll(this.finalClassification);
     console.log('Guardo en BD tiempos de vuelta');
     await this.lapService.bulkSave(this.laps);
+
+    try {
+      // this.datasource.query(
+      //   "INSERT INTO `packet_session_data` (`date`, `m_totalLaps`, `m_sessionType`, `m_trackId`, `m_sessionUID`) VALUES (CURRENT_TIMESTAMP, '5', '1', '1', 'dasadadasdadasd');",
+      // );
+    } catch (error) {
+      console.log(
+        'La query que estás intentando ejecutar genera un erroe en BD',
+      );
+    }
 
     this.session = null;
   }
