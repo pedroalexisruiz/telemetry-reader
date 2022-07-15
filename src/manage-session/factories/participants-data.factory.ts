@@ -13,6 +13,7 @@ export class ParticipantsDataFactory {
             ...participantDto,
             packetSessionData: {
               m_sessionUID: packetParticipantsData.m_header.m_sessionUID,
+              port: parseInt(process.env.UDP_PORT, 10),
             },
             index_in_session: index,
           });
