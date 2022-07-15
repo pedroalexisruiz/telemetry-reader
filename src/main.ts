@@ -4,11 +4,9 @@ import { SocketType, UdpServer } from './server';
 import * as compression from 'compression';
 
 async function bootstrap() {
-  // const app = await NestFactory.create(AppModule);
-  // await app.listen(3000);
   const hybridAppConfig = {
-    host: '127.0.0.1',
-    port: 20777,
+    host: process.env.UDP_HOST,
+    port: parseInt(process.env.UDP_PORT, 10),
   };
   const app = await NestFactory.create(AppModule);
   app.connectMicroservice({

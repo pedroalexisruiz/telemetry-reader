@@ -14,4 +14,6 @@ export class PacketSessionData {
   // 10 = R, 11 = R2, 12 = R3, 13 = Time Trial
   @Column()
   m_trackId?: number; // -1 for unknown, see appendix`
+  @Column()
+  port: number;
 }

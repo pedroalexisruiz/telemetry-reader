@@ -66,8 +66,6 @@ export class SessionManager {
   }
 
   async saveSessionData(): Promise<void> {
-    console.log('Guardo en BD la session');
-    await this.packetSessionDataService.save(this.session);
     console.log('Guardo en BD participantes');
     await this.participantsService.saveAll(this.participants);
     console.log('Guardo en BD clasificacion final');
@@ -96,13 +94,15 @@ export class SessionManager {
       m_trackId,
     } = data;
     if (!this.session || m_sessionUID !== this.session.m_sessionUID) {
-      console.log('almaceno sesión temporalmente');
       this.session = {
         m_sessionUID,
         m_totalLaps,
         m_sessionType,
         m_trackId,
+        port: parseInt(process.env.UDP_PORT, 10),
       };
+      console.log('Guardo en BD la session');
+      await this.packetSessionDataService.save(this.session);
       this.resetSessionFlags();
     }
   }

@@ -13,7 +13,7 @@ export class LapDataFactory {
             ...lap,
             m_sessionUID: packetParticipantsData.m_header.m_sessionUID,
             m_carIdx: packetParticipantsData.m_carIdx,
-            lap_number,
+            lap_number: lap_number + 1,
           });
         }
       },

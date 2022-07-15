@@ -31,7 +31,7 @@ export class UdpServer extends Server implements CustomTransportStrategy {
 
   public async listen(callback: () => void) {
     this.server = createSocket(this.options.socketOptions);
-    this.server.bind(20777);
+    this.server.bind(parseInt(process.env.UDP_PORT, 10));
     this.server.on(LISTENING_EVENT, () => {
       const address = this.server.address();
       this.logger.log(
