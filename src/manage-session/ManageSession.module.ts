@@ -14,6 +14,10 @@ import { PacketSessionDataService } from './services/packetsessiondata.service';
 import { ParticipantsService } from './services/participants.service';
 import { SessionManager } from './model/sessionManager';
 import { DataSource } from 'typeorm';
+import { CarStatusData } from './model/CarStatusData';
+import { CarStatusDataService } from './services/carstatus.service';
+import { CarStatusManager } from './model/CarStatusManager';
+import { CarStatusesDataFactory } from './factories/car-status-data.factory';
 
 @Module({
   imports: [
@@ -22,6 +26,7 @@ import { DataSource } from 'typeorm';
       ParticipantData,
       FinalClassificationData,
       LapData,
+      CarStatusData,
     ]),
   ],
   controllers: [ManageSessionController],
@@ -41,6 +46,7 @@ import { DataSource } from 'typeorm';
             ParticipantData,
             FinalClassificationData,
             LapData,
+            CarStatusData,
           ],
           synchronize: false,
           name: 'assetoCorsaConnection',
@@ -55,7 +61,10 @@ import { DataSource } from 'typeorm';
     LapDataFactory,
     ClassificationService,
     LapService,
+    CarStatusDataService,
+    CarStatusManager,
     SessionManager,
+    CarStatusesDataFactory
   ],
 })
 export class ManageSessionModule {}

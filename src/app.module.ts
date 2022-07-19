@@ -6,6 +6,7 @@ import { FinalClassificationData } from './manage-session/model/ClassificationDa
 import { LapData } from './manage-session/model/LapData';
 import { PacketSessionData } from './manage-session/model/PacketSessionData';
 import { ParticipantData } from './manage-session/model/ParticipantData';
+import { CarStatusData } from './manage-session/model/CarStatusData';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ParticipantData } from './manage-session/model/ParticipantData';
         ParticipantData,
         FinalClassificationData,
         LapData,
+        CarStatusData
       ],
     }),
     ManageSessionModule,

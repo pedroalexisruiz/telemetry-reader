@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FinalClassificationData } from '../model/ClassificationData';
 import { PacketFinalClassificationData } from '../model/PacketFinalClassificationData';
-import { ParticipantData } from '../model/ParticipantData';
 
 @Injectable()
 export class FinalClassificationDataFactory {

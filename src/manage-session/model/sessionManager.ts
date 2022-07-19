@@ -10,6 +10,7 @@ import { PacketSessionData } from './PacketSessionData';
 import { PacketParticipantsData } from './PacketParticipantsData';
 import { PacketFinalClassificationData } from './PacketFinalClassificationData';
 import { DataSource } from 'typeorm';
+import { CarStatusManager } from './CarStatusManager';
 
 @Injectable()
 export class SessionManager {
@@ -28,6 +29,7 @@ export class SessionManager {
     private participantsService: ParticipantsService,
     private classificationService: ClassificationService,
     private lapService: LapService,
+    private carStatusManager: CarStatusManager,
     @Inject('DATA_SOURCE') private datasource: DataSource,
   ) {}
 
@@ -49,6 +51,9 @@ export class SessionManager {
     }
     if (packetID === PACKETS.session) {
       this.handleSession(data);
+    }
+    if (packetID === PACKETS.carStatus) {
+      this.carStatusManager.handlePacket(data);
     }
   }
 
@@ -72,6 +77,8 @@ export class SessionManager {
     await this.classificationService.saveAll(this.finalClassification);
     console.log('Guardo en BD tiempos de vuelta');
     await this.lapService.bulkSave(this.laps);
+    await this.carStatusManager.saveCarStatuses();
+    this.carStatusManager.resetFlags();
 
     try {
       // this.datasource.query(
@@ -109,10 +116,11 @@ export class SessionManager {
 
   async handleParticipants(data: any): Promise<void> {
     if (this.saveParticipants) {
-      console.log('almaceno participantes temporalmente');
-      this.participants = data;
       this.saveParticipants = false;
       this.pilotsInSession = data.m_numActiveCars;
+      console.log('almaceno participantes temporalmente');
+      this.participants = data;
+      this.carStatusManager.participantsQuantity = this.pilotsInSession;
     }
   }
 
@@ -132,5 +140,6 @@ export class SessionManager {
     this.laps = [];
     this.pilotsSaved = 0;
     this.pilotsInSession = 0;
+    this.carStatusManager.session = this.session;
   }
 }
