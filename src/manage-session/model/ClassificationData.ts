@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { ParticipantData } from './ParticipantData';
 
-@Entity({ name: 'resultados' })
+@Entity({ name: 'f1_resultados' })
 @Index(['index_in_session', 'm_sessionUID'], { unique: true })
 export class FinalClassificationData {
   @PrimaryColumn()

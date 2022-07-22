@@ -1,6 +1,6 @@
 import { Column, Entity } from 'typeorm';
 
-@Entity({ name: 'packet_session_data' })
+@Entity({ name: 'f1_packet_session_data' })
 export class PacketSessionData {
   @Column({ primary: true })
   m_sessionUID: string; // Header

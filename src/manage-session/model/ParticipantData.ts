@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { PacketSessionData } from './PacketSessionData';
 
-@Entity({ name: 'participants' })
+@Entity({ name: 'f1_participants' })
 @Index(['packetSessionData.m_sessionUID', 'index_in_session'], { unique: true })
 export class ParticipantData {
   @PrimaryColumn()
