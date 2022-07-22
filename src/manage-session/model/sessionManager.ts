@@ -11,6 +11,7 @@ import { PacketParticipantsData } from './PacketParticipantsData';
 import { PacketFinalClassificationData } from './PacketFinalClassificationData';
 import { DataSource } from 'typeorm';
 import { CarStatusManager } from './CarStatusManager';
+import { CarDamageManager } from './CarDamageManager';
 
 @Injectable()
 export class SessionManager {
@@ -30,6 +31,7 @@ export class SessionManager {
     private classificationService: ClassificationService,
     private lapService: LapService,
     private carStatusManager: CarStatusManager,
+    private carDamageManager: CarDamageManager,
     @Inject('DATA_SOURCE') private datasource: DataSource,
   ) {}
 
@@ -55,12 +57,18 @@ export class SessionManager {
     if (packetID === PACKETS.carStatus) {
       this.carStatusManager.handlePacket(data);
     }
+    if (packetID === PACKETS.carDamage) {
+      this.carDamageManager.handlePacket(
+        data,
+        this.session,
+        this.pilotsInSession,
+      );
+    }
   }
 
   async handleLaps(data: any): Promise<void> {
     if (this.saveLapTimes) {
       if (this.pilotsSaved < this.pilotsInSession) {
-        console.log('pusheo tiempos de vuelta');
         this.laps.push(data);
         this.pilotsSaved++;
       }
@@ -71,14 +79,18 @@ export class SessionManager {
   }
 
   async saveSessionData(): Promise<void> {
-    console.log('Guardo en BD participantes');
+    console.log('Saving participants in DB');
     await this.participantsService.saveAll(this.participants);
-    console.log('Guardo en BD clasificacion final');
+    console.log('Saving final classification in DB');
     await this.classificationService.saveAll(this.finalClassification);
-    console.log('Guardo en BD tiempos de vuelta');
+    console.log('Saving lap times in DB');
     await this.lapService.bulkSave(this.laps);
-    await this.carStatusManager.saveCarStatuses();
+    console.log('Saving car status in DB');
+    await this.carStatusManager.saveCarStatus();
     this.carStatusManager.resetFlags();
+    console.log('Saving car damages in DB');
+    await this.carDamageManager.saveCarDamages();
+    this.carDamageManager.resetFlags();
 
     try {
       // this.datasource.query(
@@ -86,7 +98,7 @@ export class SessionManager {
       // );
     } catch (error) {
       console.log(
-        'La query que estás intentando ejecutar genera un erroe en BD',
+        'La query que estás intentando ejecutar genera un error en BD',
       );
     }
 

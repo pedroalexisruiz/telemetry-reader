@@ -18,6 +18,10 @@ import { CarStatusData } from './model/CarStatusData';
 import { CarStatusDataService } from './services/carstatus.service';
 import { CarStatusManager } from './model/CarStatusManager';
 import { CarStatusesDataFactory } from './factories/car-status-data.factory';
+import { CarDamageData } from './model/CarDamageData';
+import { CarDamagesDataFactory } from './factories/car-damage-data.factory';
+import { CarDamageDataService } from './services/cardamage.service';
+import { CarDamageManager } from './model/CarDamageManager';
 
 @Module({
   imports: [
@@ -27,6 +31,7 @@ import { CarStatusesDataFactory } from './factories/car-status-data.factory';
       FinalClassificationData,
       LapData,
       CarStatusData,
+      CarDamageData,
     ]),
   ],
   controllers: [ManageSessionController],
@@ -47,6 +52,7 @@ import { CarStatusesDataFactory } from './factories/car-status-data.factory';
             FinalClassificationData,
             LapData,
             CarStatusData,
+            CarDamageData,
           ],
           synchronize: false,
           name: 'assetoCorsaConnection',
@@ -64,7 +70,10 @@ import { CarStatusesDataFactory } from './factories/car-status-data.factory';
     CarStatusDataService,
     CarStatusManager,
     SessionManager,
-    CarStatusesDataFactory
+    CarStatusesDataFactory,
+    CarDamagesDataFactory,
+    CarDamageDataService,
+    CarDamageManager,
   ],
 })
 export class ManageSessionModule {}
