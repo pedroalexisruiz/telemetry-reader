@@ -13,6 +13,7 @@ import { DataSource } from 'typeorm';
 import { CarStatusManager } from './CarStatusManager';
 import { CarDamageManager } from './CarDamageManager';
 import { CarMotionManager } from './CarMotionManager';
+import { LapManager } from './LapManager';
 
 @Injectable()
 export class SessionManager {
@@ -34,6 +35,7 @@ export class SessionManager {
     private carStatusManager: CarStatusManager,
     private carDamageManager: CarDamageManager,
     private carMotionManager: CarMotionManager,
+    private lapManager: LapManager,
     @Inject('DATA_SOURCE') private datasource: DataSource,
   ) {}
 
@@ -73,6 +75,9 @@ export class SessionManager {
         this.pilotsInSession,
       );
     }
+    if (packetID === PACKETS.lapData) {
+      this.lapManager.handlePacket(data, this.session, this.pilotsInSession);
+    }
   }
 
   async handleLaps(data: any): Promise<void> {
@@ -103,6 +108,9 @@ export class SessionManager {
     console.log('Saving car motions in DB');
     await this.carMotionManager.saveCarMotions();
     this.carMotionManager.resetFlags();
+    console.log('Saving laps in DB');
+    await this.lapManager.saveLaps();
+    this.lapManager.resetFlags();
 
     try {
       // this.datasource.query(
