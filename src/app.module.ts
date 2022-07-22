@@ -8,6 +8,7 @@ import { PacketSessionData } from './manage-session/model/PacketSessionData';
 import { ParticipantData } from './manage-session/model/ParticipantData';
 import { CarStatusData } from './manage-session/model/CarStatusData';
 import { CarDamageData } from './manage-session/model/CarDamageData';
+import { CarMotionData } from './manage-session/model/CarMotionData';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { CarDamageData } from './manage-session/model/CarDamageData';
         FinalClassificationData,
         LapData,
         CarStatusData,
-        CarDamageData
+        CarDamageData,
+        CarMotionData
       ],
     }),
     ManageSessionModule,

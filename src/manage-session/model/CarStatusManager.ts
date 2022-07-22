@@ -20,10 +20,15 @@ export class CarStatusManager {
 
   async handlePacket(packetCarStatusData: PacketCarStatusData) {
     const currentDate = new Date();
+    const secondsToWaitNextData: number = parseInt(
+      process.env.CAR_STATUS_SAVE_INTERVAL,
+      10,
+    );
     if (
-      !this.lastListeningTime ||
-      getSecondsBetweenDates(this.lastListeningTime, currentDate) >=
-        parseInt(process.env.CAR_STATUS_SAVE_INTERVAL, 10)
+      secondsToWaitNextData > 0 &&
+      (!this.lastListeningTime ||
+        getSecondsBetweenDates(this.lastListeningTime, currentDate) >=
+          secondsToWaitNextData)
     ) {
       const { m_header, m_carStatusData } = packetCarStatusData;
       if (

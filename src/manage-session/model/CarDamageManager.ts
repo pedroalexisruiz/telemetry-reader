@@ -22,10 +22,15 @@ export class CarDamageManager {
     participantsQuantity: number,
   ) {
     const currentDate = new Date();
+    const secondsToWaitNextData: number = parseInt(
+      process.env.CAR_DAMAGE_SAVE_INTERVAL,
+      10,
+    );
     if (
-      !this.lastListeningTime ||
-      getSecondsBetweenDates(this.lastListeningTime, currentDate) >=
-        parseInt(process.env.CAR_DAMAGE_SAVE_INTERVAL, 10)
+      secondsToWaitNextData > 0 &&
+      (!this.lastListeningTime ||
+        getSecondsBetweenDates(this.lastListeningTime, currentDate) >=
+          secondsToWaitNextData)
     ) {
       const { m_header, m_carDamageData } = packetCarDamageData;
       if (
