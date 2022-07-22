@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ParsedMessage } from 'src/types';
 import { ClassificationService } from '../services/classification.service';
-import { LapService } from '../services/lap.service';
+import { LapHistoryService } from '../services/lap-history.service';
 import { PacketSessionDataService } from '../services/packetsessiondata.service';
 import { ParticipantsService } from '../services/participants.service';
 import { PACKETS } from '../../myconstants/packets';
@@ -30,7 +30,7 @@ export class SessionManager {
     private packetSessionDataService: PacketSessionDataService,
     private participantsService: ParticipantsService,
     private classificationService: ClassificationService,
-    private lapService: LapService,
+    private lapService: LapHistoryService,
     private carStatusManager: CarStatusManager,
     private carDamageManager: CarDamageManager,
     private carMotionManager: CarMotionManager,

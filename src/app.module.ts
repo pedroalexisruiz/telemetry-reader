@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ManageSessionModule } from './manage-session/ManageSession.module';
 import { FinalClassificationData } from './manage-session/model/ClassificationData';
-import { LapData } from './manage-session/model/LapData';
+import { LapHistoryData } from './manage-session/model/LapHistoryData';
 import { PacketSessionData } from './manage-session/model/PacketSessionData';
 import { ParticipantData } from './manage-session/model/ParticipantData';
 import { CarStatusData } from './manage-session/model/CarStatusData';
@@ -24,7 +24,7 @@ import { CarMotionData } from './manage-session/model/CarMotionData';
         PacketSessionData,
         ParticipantData,
         FinalClassificationData,
-        LapData,
+        LapHistoryData,
         CarStatusData,
         CarDamageData,
         CarMotionData

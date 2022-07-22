@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ManageSessionController } from 'src/manage-session/manage-session.controller';
 import { FinalClassificationDataFactory } from './factories/final-classification-data.factory';
-import { LapDataFactory } from './factories/lap-data.factory';
+import { LapHistoryDataFactory } from './factories/lap-history-data.factory';
 import { ParticipantsDataFactory } from './factories/participants-data.factory';
 import { FinalClassificationData } from './model/ClassificationData';
-import { LapData } from './model/LapData';
+import { LapHistoryData } from './model/LapHistoryData';
 import { PacketSessionData } from './model/PacketSessionData';
 import { ParticipantData } from './model/ParticipantData';
 import { ClassificationService } from './services/classification.service';
-import { LapService } from './services/lap.service';
+import { LapHistoryService } from './services/lap-history.service';
 import { PacketSessionDataService } from './services/packetsessiondata.service';
 import { ParticipantsService } from './services/participants.service';
 import { SessionManager } from './model/sessionManager';
@@ -33,7 +33,7 @@ import { CarMotionManager } from './model/CarMotionManager';
       PacketSessionData,
       ParticipantData,
       FinalClassificationData,
-      LapData,
+      LapHistoryData,
       CarStatusData,
       CarDamageData,
       CarMotionData,
@@ -55,7 +55,7 @@ import { CarMotionManager } from './model/CarMotionManager';
             PacketSessionData,
             ParticipantData,
             FinalClassificationData,
-            LapData,
+            LapHistoryData,
             CarStatusData,
             CarDamageData,
             CarMotionData,
@@ -70,9 +70,9 @@ import { CarMotionManager } from './model/CarMotionManager';
     ParticipantsService,
     ParticipantsDataFactory,
     FinalClassificationDataFactory,
-    LapDataFactory,
+    LapHistoryDataFactory,
     ClassificationService,
-    LapService,
+    LapHistoryService,
     CarStatusDataService,
     CarStatusManager,
     SessionManager,

@@ -1,4 +1,4 @@
-import { LapData } from './LapData';
+import { LapHistoryData } from './LapHistoryData';
 import { PacketHeader } from './PacketHeader';
 import { TyreStintHistoryData } from './TyreStintHistoryData';
 
@@ -11,6 +11,6 @@ export interface PacketSessionHistoryData {
   m_bestSector1LapNum: number; // Lap the best Sector 1 time was achieved on
   m_bestSector2LapNum: number; // Lap the best Sector 2 time was achieved on
   m_bestSector3LapNum: number; // Lap the best Sector 3 time was achieved on
-  m_lapHistoryData: Array<LapData | null[]>;
+  m_lapHistoryData: Array<LapHistoryData | null[]>;
   m_tyreStintsHistoryData: Array<TyreStintHistoryData | null[]>;
 }

@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { FinalClassificationData } from '../model/ClassificationData';
-import { LapData } from '../model/LapData';
-import { LapDataFactory } from '../factories/lap-data.factory';
+import { LapHistoryData } from '../model/LapHistoryData';
+import { LapHistoryDataFactory } from '../factories/lap-history-data.factory';
 import { PacketSessionHistoryData } from '../model/PacketSessionHistoryData';
 
 @Injectable()
-export class LapService {
+export class LapHistoryService {
   constructor(
-    @InjectRepository(LapData)
-    private sessionsRepository: Repository<LapData>,
+    @InjectRepository(LapHistoryData)
+    private sessionsRepository: Repository<LapHistoryData>,
     private dataSource: DataSource,
-    private lapDataFactory: LapDataFactory,
+    private lapDataFactory: LapHistoryDataFactory,
   ) {}
 
-  findAll(): Promise<LapData[]> {
+  findAll(): Promise<LapHistoryData[]> {
     return this.sessionsRepository.find();
   }
 
@@ -23,7 +22,7 @@ export class LapService {
     m_carIdx: number,
     m_sessionUID: string,
     lap_number: number,
-  ): Promise<LapData> {
+  ): Promise<LapHistoryData> {
     return this.sessionsRepository.findOneBy({
       m_carIdx,
       m_sessionUID,
@@ -35,7 +34,7 @@ export class LapService {
     await this.dataSource
       .createQueryBuilder()
       .delete()
-      .from(LapData)
+      .from(LapHistoryData)
       .where({
         index_in_session,
         packetSessionData: { m_sessionUID },
@@ -45,16 +44,16 @@ export class LapService {
 
   async saveAll(
     sessionHistoryData: PacketSessionHistoryData,
-  ): Promise<LapData[]> {
+  ): Promise<LapHistoryData[]> {
     const results = this.lapDataFactory.toEntity(sessionHistoryData);
     try {
       const result = await this.dataSource
         .createQueryBuilder()
         .insert()
-        .into(LapData)
+        .into(LapHistoryData)
         .values(results)
         .execute();
-      return result.generatedMaps as LapData[];
+      return result.generatedMaps as LapHistoryData[];
     } catch (error) {
       console.log(error);
       console.log('Error guardando datos de vuelta');
@@ -63,8 +62,8 @@ export class LapService {
 
   async bulkSave(
     sessionsHistoryData: PacketSessionHistoryData[],
-  ): Promise<LapData[]> {
-    let laps: LapData[] = [];
+  ): Promise<LapHistoryData[]> {
+    let laps: LapHistoryData[] = [];
     sessionsHistoryData.forEach((sessionHistoryPerParticipant) => {
       laps = [
         ...laps,
@@ -76,10 +75,10 @@ export class LapService {
       const result = await this.dataSource
         .createQueryBuilder()
         .insert()
-        .into(LapData)
+        .into(LapHistoryData)
         .values(laps)
         .execute();
-      return result.generatedMaps as LapData[];
+      return result.generatedMaps as LapHistoryData[];
     } catch (error) {
       console.log(error);
       console.log('Error guardando datos de vuelta');

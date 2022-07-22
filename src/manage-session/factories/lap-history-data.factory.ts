@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { LapData } from '../model/LapData';
+import { LapHistoryData } from '../model/LapHistoryData';
 import { PacketSessionHistoryData } from '../model/PacketSessionHistoryData';
 
 @Injectable()
-export class LapDataFactory {
-  toEntity(packetParticipantsData: PacketSessionHistoryData): LapData[] {
-    const laps: LapData[] = [];
+export class LapHistoryDataFactory {
+  toEntity(packetParticipantsData: PacketSessionHistoryData): LapHistoryData[] {
+    const laps: LapHistoryData[] = [];
     packetParticipantsData.m_lapHistoryData.forEach(
-      (lap: LapData, lap_number: number) => {
+      (lap: LapHistoryData, lap_number: number) => {
         if (lap.m_lapTimeInMS) {
           laps.push({
             ...lap,

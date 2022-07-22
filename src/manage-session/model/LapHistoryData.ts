@@ -8,9 +8,9 @@ import {
 } from 'typeorm';
 import { FinalClassificationData } from './ClassificationData';
 
-@Entity({ name: 'lap_data' })
+@Entity({ name: 'f1_lap_history_data' })
 @Index(['m_carIdx', 'm_sessionUID', 'lap_number'], { unique: true })
-export class LapData {
+export class LapHistoryData {
   @PrimaryColumn()
   @ManyToOne(() => FinalClassificationData)
   @JoinColumn({ name: 'm_sessionUID' })
