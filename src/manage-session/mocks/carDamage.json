@@ -1,0 +1,25 @@
+{
+  "m_tyresWear": [
+    4.22188138961792, 4.04522180557251, 2.6277763843536377, 2.589406728744507
+  ],
+  "m_tyresDamage": [4, 4, 2, 2],
+  "m_brakesDamage": [0, 0, 0, 0],
+  "m_frontLeftWingDamage": 0,
+  "m_frontRightWingDamage": 0,
+  "m_rearWingDamage": 0,
+  "m_floorDamage": 0,
+  "m_diffuserDamage": 0,
+  "m_sidepodDamage": 0,
+  "m_drsFault": 0,
+  "m_ersFault": 0,
+  "m_gearBoxDamage": 0,
+  "m_engineDamage": 0,
+  "m_engineMGUHWear": 0,
+  "m_engineESWear": 0,
+  "m_engineCEWear": 0,
+  "m_engineICEWear": 0,
+  "m_engineMGUKWear": 0,
+  "m_engineTCWear": 0,
+  "m_engineBlown": 0,
+  "m_engineSeized": 0
+}

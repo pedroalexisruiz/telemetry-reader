@@ -16,6 +16,9 @@ export class CarDamagesDataFactory {
           ...carStatusDto,
           m_sessionUID: packetCarStatussData.m_header.m_sessionUID,
           index_in_session,
+          m_tyresWear: carStatusDto.m_tyresWear.toString(),
+          m_tyresDamage: carStatusDto.m_tyresDamage.toString(),
+          m_brakesDamage: carStatusDto.m_brakesDamage.toString(),
         });
       },
     );

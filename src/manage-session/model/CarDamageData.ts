@@ -20,6 +20,12 @@ export class CarDamageData {
   @JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;
   @Column()
+  m_tyresWear: string; // tyres wear separated by commas "BR,BL,FR,FL" ej: "4.22188138961792,4.04522180557251,2.6277763843536377,2.589406728744507"
+  @Column()
+  m_tyresDamage: string; // tyres damage separated by commas "BR,BL,FR,FL" ej: "4,4,2,2"
+  @Column()
+  m_brakesDamage: string; // brakes damage separated by commas "BR,BL,FR,FL" ej: "0,0,1,1"
+  @Column()
   m_frontLeftWingDamage: number; // Front left wing damage (percentage)
   @Column()
   m_frontRightWingDamage: number; // Front right wing damage (percentage)
