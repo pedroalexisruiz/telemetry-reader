@@ -14,6 +14,7 @@ import { CarStatusManager } from './CarStatusManager';
 import { CarDamageManager } from './CarDamageManager';
 import { CarMotionManager } from './CarMotionManager';
 import { LapManager } from './LapManager';
+import { CarTelemetryManager } from './CarTelemetryManager';
 
 @Injectable()
 export class SessionManager {
@@ -36,6 +37,7 @@ export class SessionManager {
     private carDamageManager: CarDamageManager,
     private carMotionManager: CarMotionManager,
     private lapManager: LapManager,
+    private carTelemetryManager: CarTelemetryManager,
     @Inject('DATA_SOURCE') private datasource: DataSource,
   ) {}
 
@@ -78,6 +80,13 @@ export class SessionManager {
     if (packetID === PACKETS.lapData) {
       this.lapManager.handlePacket(data, this.session, this.pilotsInSession);
     }
+    if (packetID === PACKETS.carTelemetry) {
+      this.carTelemetryManager.handlePacket(
+        data,
+        this.session,
+        this.pilotsInSession,
+      );
+    }
   }
 
   async handleLaps(data: any): Promise<void> {
@@ -111,6 +120,9 @@ export class SessionManager {
     console.log('Saving laps in DB');
     await this.lapManager.saveLaps();
     this.lapManager.resetFlags();
+    console.log('Saving telemetry in DB');
+    await this.carTelemetryManager.saveCarTelemetrys();
+    this.carTelemetryManager.resetFlags();
 
     try {
       // this.datasource.query(
