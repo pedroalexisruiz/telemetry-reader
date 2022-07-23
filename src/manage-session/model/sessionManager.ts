@@ -14,6 +14,7 @@ import { CarStatusManager } from './CarStatusManager';
 import { CarDamageManager } from './CarDamageManager';
 import { CarMotionManager } from './CarMotionManager';
 import { LapManager } from './LapManager';
+import { CarTelemetryManager } from './CarTelemetryManager';
 
 @Injectable()
 export class SessionManager {
@@ -36,6 +37,7 @@ export class SessionManager {
     private carDamageManager: CarDamageManager,
     private carMotionManager: CarMotionManager,
     private lapManager: LapManager,
+    private carTelemetryManager: CarTelemetryManager,
     @Inject('DATA_SOURCE') private datasource: DataSource,
   ) {}
 
@@ -78,6 +80,13 @@ export class SessionManager {
     if (packetID === PACKETS.lapData) {
       this.lapManager.handlePacket(data, this.session, this.pilotsInSession);
     }
+    if (packetID === PACKETS.carTelemetry) {
+      this.carTelemetryManager.handlePacket(
+        data,
+        this.session,
+        this.pilotsInSession,
+      );
+    }
   }
 
   async handleLaps(data: any): Promise<void> {
@@ -93,6 +102,7 @@ export class SessionManager {
   }
 
   async saveSessionData(): Promise<void> {
+    this.session = null;
     console.log('Saving participants in DB');
     await this.participantsService.saveAll(this.participants);
     console.log('Saving final classification in DB');
@@ -111,6 +121,9 @@ export class SessionManager {
     console.log('Saving laps in DB');
     await this.lapManager.saveLaps();
     this.lapManager.resetFlags();
+    console.log('Saving telemetry in DB');
+    await this.carTelemetryManager.saveCarTelemetrys();
+    this.carTelemetryManager.resetFlags();
 
     try {
       // this.datasource.query(
@@ -121,8 +134,6 @@ export class SessionManager {
         'La query que estás intentando ejecutar genera un error en BD',
       );
     }
-
-    this.session = null;
   }
 
   async handleSession(data: any): Promise<void> {
@@ -140,7 +151,7 @@ export class SessionManager {
         m_trackId,
         port: parseInt(process.env.UDP_PORT, 10),
       };
-      console.log('Guardo en BD la session');
+      console.log('Saving session in BD');
       await this.packetSessionDataService.save(this.session);
       this.resetSessionFlags();
     }
@@ -150,7 +161,7 @@ export class SessionManager {
     if (this.saveParticipants && this.session) {
       this.saveParticipants = false;
       this.pilotsInSession = data.m_numActiveCars;
-      console.log('almaceno participantes temporalmente');
+      console.log('temporarily storing participants');
       this.participants = data;
       this.carStatusManager.participantsQuantity = this.pilotsInSession;
     }
@@ -158,7 +169,7 @@ export class SessionManager {
 
   async handleResults(data: PacketFinalClassificationData): Promise<void> {
     if (this.saveResults) {
-      console.log('almaceno resultados temporalmente');
+      console.log('temporarily storing results');
       this.finalClassification = data;
       this.saveResults = false;
       this.saveLapTimes = true;

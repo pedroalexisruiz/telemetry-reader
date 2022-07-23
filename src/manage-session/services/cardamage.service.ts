@@ -28,7 +28,7 @@ export class CarDamageDataService {
       return this.carDamageRepository.save(carDamageData);
     } catch (error) {
       console.log(error);
-      console.log('Error guardando damage de vehículo');
+      console.log('Error saving car damage');
     }
   }
 
@@ -43,7 +43,7 @@ export class CarDamageDataService {
       return carDamages;
     } catch (error) {
       console.log('error', error);
-      console.log('Error guardando damage de vehículos');
+      console.log('Error savings cars damage');
     }
   }
 }
