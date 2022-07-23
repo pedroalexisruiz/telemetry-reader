@@ -147,7 +147,7 @@ export class SessionManager {
   }
 
   async handleParticipants(data: any): Promise<void> {
-    if (this.saveParticipants) {
+    if (this.saveParticipants && this.session) {
       this.saveParticipants = false;
       this.pilotsInSession = data.m_numActiveCars;
       console.log('almaceno participantes temporalmente');
