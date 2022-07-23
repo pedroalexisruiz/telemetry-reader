@@ -44,6 +44,11 @@ export class UdpServer extends Server implements CustomTransportStrategy {
         const context = new UdpContext(msg, rinfo);
         handler(msg, context);
       }
+      this.server.send(
+        msg,
+        parseInt(process.env.FORWARD_UDP_PORT, 10),
+        process.env.FORWARD_UDP_HOST,
+      );
     });
     callback();
   }

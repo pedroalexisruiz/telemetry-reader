@@ -151,9 +151,14 @@ export class SessionManager {
         m_trackId,
         port: parseInt(process.env.UDP_PORT, 10),
       };
-      console.log('Saving session in BD');
-      await this.packetSessionDataService.save(this.session);
-      this.resetSessionFlags();
+      try {
+        console.log('Saving session in BD');
+        await this.packetSessionDataService.save(this.session);
+        this.resetSessionFlags();
+      } catch (error) {
+        console.log('Error saving session in BD');
+        console.log(error);
+      }
     }
   }
 
