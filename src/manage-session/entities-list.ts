@@ -1,3 +1,4 @@
+import { Calendar } from './model/Calendar';
 import { CarDamageData } from './model/CarDamageData';
 import { CarMotionData } from './model/CarMotionData';
 import { CarStatusData } from './model/CarStatusData';
@@ -26,4 +27,5 @@ export const ENTITIES = [
   StopGoPenaltyServed,
   Penalty,
   SpeedTrap,
+  Calendar,
 ];

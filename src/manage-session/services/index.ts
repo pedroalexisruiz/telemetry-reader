@@ -1,3 +1,4 @@
+import { CalendarService } from './calendar.service';
 import { CarTelemetryDataService } from './car-telemetry.service';
 import { CarDamageDataService } from './cardamage.service';
 import { CarMotionDataService } from './carmotion.service';
@@ -26,4 +27,5 @@ export const SERVICES = [
   SpeedTrapService,
   DriveThroughPenaltyServedService,
   StopGoPenaltyServedService,
+  CalendarService,
 ];

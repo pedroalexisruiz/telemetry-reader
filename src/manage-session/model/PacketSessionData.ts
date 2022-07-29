@@ -16,4 +16,6 @@ export class PacketSessionData {
   m_trackId?: number; // -1 for unknown, see appendix`
   @Column()
   port: number;
+  @Column({ nullable: true })
+  id_calendar?: number;
 }

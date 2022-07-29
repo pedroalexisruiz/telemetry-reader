@@ -16,6 +16,7 @@ import { CarMotionManager } from './CarMotionManager';
 import { LapManager } from './LapManager';
 import { CarTelemetryManager } from './CarTelemetryManager';
 import { EventManager } from './EventManager';
+import { CalendarService } from 'src/manage-session/services/calendar.service';
 
 @Injectable()
 export class SessionManager {
@@ -40,6 +41,7 @@ export class SessionManager {
     private lapManager: LapManager,
     private carTelemetryManager: CarTelemetryManager,
     private eventManager: EventManager,
+    private calendarService: CalendarService,
     @Inject('DATA_SOURCE') private datasource: DataSource,
   ) {}
 
@@ -152,13 +154,30 @@ export class SessionManager {
       m_trackId,
     } = data;
     if (!this.session || m_sessionUID !== this.session.m_sessionUID) {
+      const port = parseInt(process.env.UDP_PORT, 10);
+      const calendar = await this.calendarService.findNextEmpty(
+        port,
+        m_sessionType,
+      );
       this.session = {
         m_sessionUID,
         m_totalLaps,
         m_sessionType,
         m_trackId,
-        port: parseInt(process.env.UDP_PORT, 10),
+        port,
+        id_calendar: calendar ? calendar.id_calendar : null,
       };
+      if (calendar) {
+        calendar.is_saved = true;
+        await this.calendarService.save(calendar);
+        console.log(
+          'Sesión enlazada al calendario',
+        );
+      } else {
+        console.log(
+          'No existía calendario para esta sesión, deberás enlazarla manualmente',
+        );
+      }
       try {
         console.log('Saving session in BD');
         await this.packetSessionDataService.save(this.session);
