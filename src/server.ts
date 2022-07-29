@@ -44,14 +44,19 @@ export class UdpServer extends Server implements CustomTransportStrategy {
         const context = new UdpContext(msg, rinfo);
         handler(msg, context);
       }
-      this.server.send(
-        msg,
-        parseInt(process.env.FORWARD_UDP_PORT, 10),
-        process.env.FORWARD_UDP_HOST,
-      );
+      this.forwardData(msg);
     });
     callback();
   }
+
+  forwardData(msg: Buffer) {
+    const host = process.env.FORWARD_UDP_HOST;
+    const port = parseInt(process.env.FORWARD_UDP_PORT, 10);
+    if (!!host && !!port) {
+      this.server.send(msg, port, host);
+    }
+  }
+
   public async close() {
     this.server.close();
     this.logger.error(`UDP Server close !`);
