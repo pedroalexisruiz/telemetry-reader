@@ -110,8 +110,8 @@ export class SessionManager {
 
   async saveSessionData(): Promise<void> {
     this.session = null;
-    console.log('Saving participants in DB');
-    await this.participantsService.saveAll(this.participants);
+    //console.log('Saving participants in DB');
+    //await this.participantsService.saveAll(this.participants);
     console.log('Saving final classification in DB');
     await this.classificationService.saveAll(this.finalClassification);
     console.log('Saving lap times in DB');
@@ -159,7 +159,7 @@ export class SessionManager {
         port,
         m_sessionType,
       );
-      this.session = {
+      const session = {
         m_sessionUID,
         m_totalLaps,
         m_sessionType,
@@ -170,9 +170,7 @@ export class SessionManager {
       if (calendar) {
         calendar.is_saved = true;
         await this.calendarService.save(calendar);
-        console.log(
-          'Sesión enlazada al calendario',
-        );
+        console.log('Sesión enlazada al calendario');
       } else {
         console.log(
           'No existía calendario para esta sesión, deberás enlazarla manualmente',
@@ -180,7 +178,8 @@ export class SessionManager {
       }
       try {
         console.log('Saving session in BD');
-        await this.packetSessionDataService.save(this.session);
+        await this.packetSessionDataService.save(session);
+        this.session = session;
         this.resetSessionFlags();
       } catch (error) {
         console.log('Error saving session in BD');
@@ -193,9 +192,10 @@ export class SessionManager {
     if (this.saveParticipants && this.session) {
       this.saveParticipants = false;
       this.pilotsInSession = data.m_numActiveCars;
-      console.log('temporarily storing participants');
       this.participants = data;
       this.carStatusManager.participantsQuantity = this.pilotsInSession;
+      console.log('Saving participants in DB');
+      await this.participantsService.saveAll(this.participants);
     }
   }
 
