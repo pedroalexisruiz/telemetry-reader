@@ -22,9 +22,8 @@ export class LapManager {
     participantsQuantity: number,
   ) {
     const currentDate = new Date();
-    const secondsToWaitNextData: number = parseInt(
+    const secondsToWaitNextData: number = parseFloat(
       process.env.LAPS_SAVE_INTERVAL,
-      10,
     );
     if (
       secondsToWaitNextData > 0 &&

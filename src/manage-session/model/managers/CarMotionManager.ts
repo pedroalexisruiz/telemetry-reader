@@ -22,9 +22,8 @@ export class CarMotionManager {
     participantsQuantity: number,
   ) {
     const currentDate = new Date();
-    const secondsToWaitNextData: number = parseInt(
+    const secondsToWaitNextData: number = parseFloat(
       process.env.MOTION_SAVE_INTERVAL,
-      10,
     );
     if (
       secondsToWaitNextData > 0 &&

@@ -22,9 +22,8 @@ export class CarDamageManager {
     participantsQuantity: number,
   ) {
     const currentDate = new Date();
-    const secondsToWaitNextData: number = parseInt(
+    const secondsToWaitNextData: number = parseFloat(
       process.env.CAR_DAMAGE_SAVE_INTERVAL,
-      10,
     );
     if (
       secondsToWaitNextData > 0 &&
