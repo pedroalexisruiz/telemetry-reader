@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PacketSessionData } from './PacketSessionData';
-import { PacketCarStatusData } from './PacketCarStatusData';
-import { CarStatusDataService } from '../services/carstatus.service';
-import { CarStatusData } from './CarStatusData';
+import { PacketSessionData } from '../PacketSessionData';
+import { PacketCarStatusData } from '../PacketCarStatusData';
+import { CarStatusDataService } from '../../services/carstatus.service';
+import { CarStatusData } from '../CarStatusData';
 import { getSecondsBetweenDates } from 'src/util/timing-utils';
-import { CarStatusesDataFactory } from '../factories/car-status-data.factory';
+import { CarStatusesDataFactory } from '../../factories/car-status-data.factory';
 
 @Injectable()
 export class CarStatusManager {

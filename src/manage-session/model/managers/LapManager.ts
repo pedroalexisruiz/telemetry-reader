@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PacketSessionData } from './PacketSessionData';
-import { LapData } from './LapData';
+import { PacketSessionData } from '../PacketSessionData';
+import { LapData } from '../LapData';
 import { getSecondsBetweenDates } from 'src/util/timing-utils';
-import { LapDataFactory } from '../factories/lap-data.factory';
-import { PacketLapData } from '../dto/PacketLapData';
-import { LapDataService } from '../services/lap.service';
+import { LapDataFactory } from '../../factories/lap-data.factory';
+import { PacketLapData } from '../../dto/PacketLapData';
+import { LapDataService } from '../../services/lap.service';
 
 @Injectable()
 export class LapManager {

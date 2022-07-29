@@ -1,20 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ParsedMessage } from 'src/types';
-import { ClassificationService } from '../services/classification.service';
-import { LapHistoryService } from '../services/lap-history.service';
-import { PacketSessionDataService } from '../services/packetsessiondata.service';
-import { ParticipantsService } from '../services/participants.service';
-import { PACKETS } from '../../myconstants/packets';
-import { PacketSessionHistoryData } from './PacketSessionHistoryData';
-import { PacketSessionData } from './PacketSessionData';
-import { PacketParticipantsData } from './PacketParticipantsData';
-import { PacketFinalClassificationData } from './PacketFinalClassificationData';
+import { ClassificationService } from '../../services/classification.service';
+import { LapHistoryService } from '../../services/lap-history.service';
+import { PacketSessionDataService } from '../../services/packetsessiondata.service';
+import { ParticipantsService } from '../../services/participants.service';
+import { PACKETS } from '../../../myconstants/packets';
+import { PacketSessionHistoryData } from '../PacketSessionHistoryData';
+import { PacketSessionData } from '../PacketSessionData';
+import { PacketParticipantsData } from '../PacketParticipantsData';
+import { PacketFinalClassificationData } from '../PacketFinalClassificationData';
 import { DataSource } from 'typeorm';
 import { CarStatusManager } from './CarStatusManager';
 import { CarDamageManager } from './CarDamageManager';
 import { CarMotionManager } from './CarMotionManager';
 import { LapManager } from './LapManager';
 import { CarTelemetryManager } from './CarTelemetryManager';
+import { EventManager } from './EventManager';
 
 @Injectable()
 export class SessionManager {
@@ -38,6 +39,7 @@ export class SessionManager {
     private carMotionManager: CarMotionManager,
     private lapManager: LapManager,
     private carTelemetryManager: CarTelemetryManager,
+    private eventManager: EventManager,
     @Inject('DATA_SOURCE') private datasource: DataSource,
   ) {}
 
@@ -87,6 +89,9 @@ export class SessionManager {
         this.pilotsInSession,
       );
     }
+    if (packetID === PACKETS.event) {
+      this.eventManager.handlePacket(data, this.session);
+    }
   }
 
   async handleLaps(data: any): Promise<void> {
@@ -124,6 +129,9 @@ export class SessionManager {
     console.log('Saving telemetry in DB');
     await this.carTelemetryManager.saveCarTelemetrys();
     this.carTelemetryManager.resetFlags();
+    console.log('Saving events in DB');
+    await this.eventManager.saveEvents();
+    this.eventManager.resetFlags();
 
     try {
       // this.datasource.query(

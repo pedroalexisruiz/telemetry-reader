@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { Ctx, Payload } from '@nestjs/microservices';
 import { F1TelemetryClient } from '../client';
 import { IncomingMessage, UDPGateWay } from '../decorators';
-import { SessionManager } from './model/sessionManager';
+import { SessionManager } from './model/managers/sessionManager';
 import { UdpContext } from '../server';
 import { ParsedMessage } from '../types';
 
