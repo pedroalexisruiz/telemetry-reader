@@ -20,6 +20,8 @@ export class LapData {
   @JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;
   @Column()
+  m_sessionTime: number;
+  @Column()
   m_lastLapTimeInMS: number; // uint32le
   @Column()
   m_currentLapTimeInMS: number; // uint32le

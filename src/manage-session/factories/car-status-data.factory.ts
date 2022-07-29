@@ -12,6 +12,7 @@ export class CarStatusesDataFactory {
           ...carStatusDto,
           m_sessionUID: packetCarStatussData.m_header.m_sessionUID,
           index_in_session,
+          m_sessionTime: packetCarStatussData.m_header.m_sessionTime,
         });
       },
     );

@@ -20,6 +20,8 @@ export class CarMotionData {
   @JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;
   @Column()
+  m_sessionTime: number;
+  @Column()
   m_worldPositionX: number; // World space X position
   @Column()
   m_worldPositionY: number; // World space Y position

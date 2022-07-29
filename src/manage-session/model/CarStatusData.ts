@@ -20,6 +20,8 @@ export class CarStatusData {
   @JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;
   @Column()
+  m_sessionTime: number;
+  @Column()
   m_tractionControl: number; // Traction control - 0 = off, 1 = medium, 2 = full
   @Column()
   m_antiLockBrakes: number; // 0 (off) - 1 (on)

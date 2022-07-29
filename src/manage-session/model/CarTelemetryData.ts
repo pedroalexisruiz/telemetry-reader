@@ -20,6 +20,8 @@ export class CarTelemetryData {
   @JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;
   @Column()
+  m_sessionTime: number;
+  @Column()
   /*uint16*/
   m_speed: number;
   @Column()
