@@ -8,9 +8,6 @@ import { CarStatusesDataFactory } from '../../factories/car-status-data.factory'
 
 @Injectable()
 export class CarStatusManager {
-  _session: PacketSessionData;
-  _participantsQuantity: number = 0;
-  carStatuses: CarStatusData[] = [];
   lastListeningTime: Date;
 
   constructor(
@@ -18,7 +15,11 @@ export class CarStatusManager {
     private carStatusDataFactory: CarStatusesDataFactory,
   ) {}
 
-  async handlePacket(packetCarStatusData: PacketCarStatusData) {
+  async handlePacket(
+    packetCarStatusData: PacketCarStatusData,
+    currentSession: PacketSessionData,
+    participantsQuantity: number,
+  ) {
     const currentDate = new Date();
     const secondsToWaitNextData: number = parseFloat(
       process.env.CAR_STATUS_SAVE_INTERVAL,
@@ -31,45 +32,22 @@ export class CarStatusManager {
     ) {
       const { m_header, m_carStatusData } = packetCarStatusData;
       if (
-        this.session &&
-        this.participantsQuantity > 0 &&
-        this.session.m_sessionUID === m_header.m_sessionUID
+        currentSession &&
+        participantsQuantity > 0 &&
+        currentSession.m_sessionUID === m_header.m_sessionUID
       ) {
         const newStatus = this.carStatusDataFactory.toEntity({
           ...packetCarStatusData,
-          m_carStatusData: m_carStatusData.slice(0, this.participantsQuantity),
+          m_carStatusData: m_carStatusData.slice(0, participantsQuantity),
         });
-        console.log('Temporarily storing vehicle status', currentDate);
-        this.carStatuses = [...this.carStatuses, ...newStatus];
+        this.saveCarStatus(newStatus);
         this.lastListeningTime = currentDate;
       }
     }
   }
 
-  get session(): PacketSessionData {
-    return this._session;
-  }
-
-  public set session(session: PacketSessionData) {
-    this._session = session;
-  }
-
-  get participantsQuantity(): number {
-    return this._participantsQuantity;
-  }
-
-  public set participantsQuantity(participants: number) {
-    this._participantsQuantity = participants;
-  }
-
-  async saveCarStatus(): Promise<void> {
-    console.log(`Guardo ${this.carStatuses.length} status de vehículo`);
-    await this.carStatusDataService.saveAll(this.carStatuses);
-  }
-
-  resetFlags(): void {
-    this.carStatuses = [];
-    this.session = null;
-    this.participantsQuantity = 0;
+  async saveCarStatus(carsStatus: CarStatusData[]): Promise<void> {
+    console.log(`Guardo ${carsStatus.length} status de vehículo`);
+    await this.carStatusDataService.saveAll(carsStatus);
   }
 }

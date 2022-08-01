@@ -8,7 +8,6 @@ import { CarTelemetryDataService } from '../../services/car-telemetry.service';
 
 @Injectable()
 export class CarTelemetryManager {
-  carTelemetrys: CarTelemetryData[] = [];
   lastListeningTime: Date;
 
   constructor(
@@ -37,23 +36,18 @@ export class CarTelemetryManager {
         participantsQuantity > 0 &&
         currentSession.m_sessionUID === m_header.m_sessionUID
       ) {
-        const newStatus = this.carTelemetryDataFactory.toEntity({
+        const carTelemetrys = this.carTelemetryDataFactory.toEntity({
           ...packetCarTelemetryData,
           m_carTelemetryData: m_carTelemetryData.slice(0, participantsQuantity),
         });
-        console.log('Temporarily storing vehicle telemetry', currentDate);
-        this.carTelemetrys = [...this.carTelemetrys, ...newStatus];
+        this.saveCarTelemetrys(carTelemetrys);
         this.lastListeningTime = currentDate;
       }
     }
   }
 
-  async saveCarTelemetrys(): Promise<void> {
-    console.log(`Saving ${this.carTelemetrys.length} vehicle telemetrys`);
-    await this.carTelemetryDataService.saveAll(this.carTelemetrys);
-  }
-
-  resetFlags(): void {
-    this.carTelemetrys = [];
+  async saveCarTelemetrys(carTelemetrys: CarTelemetryData[]): Promise<void> {
+    console.log(`Saving ${carTelemetrys.length} vehicle telemetrys`);
+    await this.carTelemetryDataService.saveAll(carTelemetrys);
   }
 }

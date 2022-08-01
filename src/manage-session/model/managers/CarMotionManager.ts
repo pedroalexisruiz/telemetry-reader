@@ -8,7 +8,6 @@ import { CarMotionDataService } from '../../services/carmotion.service';
 
 @Injectable()
 export class CarMotionManager {
-  carMotions: CarMotionData[] = [];
   lastListeningTime: Date;
 
   constructor(
@@ -37,23 +36,18 @@ export class CarMotionManager {
         participantsQuantity > 0 &&
         currentSession.m_sessionUID === m_header.m_sessionUID
       ) {
-        const newStatus = this.carMotionDataFactory.toEntity({
+        const carMotions = this.carMotionDataFactory.toEntity({
           ...packetCarMotionData,
           m_carMotionData: m_carMotionData.slice(0, participantsQuantity),
         });
-        console.log('Temporarily storing vehicle motion', currentDate);
-        this.carMotions = [...this.carMotions, ...newStatus];
+        this.saveCarMotions(carMotions);
         this.lastListeningTime = currentDate;
       }
     }
   }
 
-  async saveCarMotions(): Promise<void> {
-    console.log(`Saving ${this.carMotions.length} vehicle motions`);
-    await this.carMotionDataService.saveAll(this.carMotions);
-  }
-
-  resetFlags(): void {
-    this.carMotions = [];
+  async saveCarMotions(carMotions:CarMotionData[]): Promise<void> {
+    console.log(`Saving ${carMotions.length} vehicle motions`);
+    await this.carMotionDataService.saveAll(carMotions);
   }
 }

@@ -8,7 +8,6 @@ import { CarDamageDataService } from '../../services/cardamage.service';
 
 @Injectable()
 export class CarDamageManager {
-  carDamages: CarDamageData[] = [];
   lastListeningTime: Date;
 
   constructor(
@@ -37,23 +36,18 @@ export class CarDamageManager {
         participantsQuantity > 0 &&
         currentSession.m_sessionUID === m_header.m_sessionUID
       ) {
-        const newStatus = this.carDamageDataFactory.toEntity({
+        const carsDamages = this.carDamageDataFactory.toEntity({
           ...packetCarDamageData,
           m_carDamageData: m_carDamageData.slice(0, participantsQuantity),
         });
-        console.log('Temporarily storing vehicle damage', currentDate);
-        this.carDamages = [...this.carDamages, ...newStatus];
+        this.saveCarDamages(carsDamages);
         this.lastListeningTime = currentDate;
       }
     }
   }
 
-  async saveCarDamages(): Promise<void> {
-    console.log(`Saving ${this.carDamages.length} vehicle damages`);
-    await this.carDamageDataService.saveAll(this.carDamages);
-  }
-
-  resetFlags(): void {
-    this.carDamages = [];
+  async saveCarDamages(carsDamages:CarDamageData[]): Promise<void> {
+    console.log(`Saving ${carsDamages.length} vehicle damages`);
+    await this.carDamageDataService.saveAll(carsDamages);
   }
 }
