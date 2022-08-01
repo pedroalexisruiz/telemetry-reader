@@ -12,6 +12,7 @@ import { ParticipantData } from './model/ParticipantData';
 import { Penalty } from './model/Penalty';
 import { SpeedTrap } from './model/SpeedTrap';
 import { StopGoPenaltyServed } from './model/StopGoPenaltyServed';
+import { TyreStintHistoryData } from './model/TyreStintHistoryData';
 
 export const ENTITIES = [
   PacketSessionData,
@@ -28,4 +29,5 @@ export const ENTITIES = [
   Penalty,
   SpeedTrap,
   Calendar,
+  TyreStintHistoryData
 ];

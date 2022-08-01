@@ -5,7 +5,7 @@ import { LapHistoryService } from '../../services/lap-history.service';
 import { PacketSessionDataService } from '../../services/packetsessiondata.service';
 import { ParticipantsService } from '../../services/participants.service';
 import { PACKETS } from '../../../myconstants/packets';
-import { PacketSessionHistoryData } from '../PacketSessionHistoryData';
+import { PacketSessionHistoryData } from '../../dto/PacketSessionHistoryData';
 import { PacketSessionData } from '../PacketSessionData';
 import { PacketParticipantsData } from '../PacketParticipantsData';
 import { PacketFinalClassificationData } from '../PacketFinalClassificationData';
@@ -116,7 +116,7 @@ export class SessionManager {
     this.session = null;
     console.log('Saving final classification in DB');
     await this.classificationService.saveAll(this.finalClassification);
-    console.log('Saving lap times in DB');
+    console.log('Saving lap times and tyre stints in DB');
     await this.lapService.bulkSave(this.laps);
 
     try {
@@ -174,10 +174,10 @@ export class SessionManager {
 
   async handleParticipants(data: any): Promise<void> {
     if (this.saveParticipants && this.session) {
-      this.pilotsInSession = data.m_numActiveCars;
       this.participants = data;
       console.log('Saving participants in DB');
       await this.participantsService.saveAll(this.participants);
+      this.pilotsInSession = data.m_numActiveCars;
     }
   }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { LapHistoryData } from '../model/LapHistoryData';
-import { PacketSessionHistoryData } from '../model/PacketSessionHistoryData';
+import { PacketSessionHistoryData } from '../dto/PacketSessionHistoryData';
 
 @Injectable()
 export class LapHistoryDataFactory {

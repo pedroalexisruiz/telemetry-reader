@@ -11,10 +11,7 @@ export class ParticipantsDataFactory {
         if (participantDto.m_name) {
           participants.push({
             ...participantDto,
-            packetSessionData: {
-              m_sessionUID: packetParticipantsData.m_header.m_sessionUID,
-              port: parseInt(process.env.UDP_PORT, 10),
-            },
+            m_sessionUID: packetParticipantsData.m_header.m_sessionUID,
             index_in_session: index,
           });
         }

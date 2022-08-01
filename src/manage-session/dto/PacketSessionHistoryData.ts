@@ -1,6 +1,6 @@
-import { LapHistoryData } from './LapHistoryData';
-import { PacketHeader } from './PacketHeader';
-import { TyreStintHistoryData } from './TyreStintHistoryData';
+import { LapHistoryData } from '../model/LapHistoryData';
+import { PacketHeader } from '../model/PacketHeader';
+import { TyreStintHistoryData } from '../model/TyreStintHistoryData';
 
 export interface PacketSessionHistoryData {
   m_header: PacketHeader;
