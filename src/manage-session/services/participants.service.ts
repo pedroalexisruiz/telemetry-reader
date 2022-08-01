@@ -48,13 +48,7 @@ export class ParticipantsService {
       packetParticipantsData,
     );
     try {
-      await this.dataSource
-        .createQueryBuilder()
-        .insert()
-        .into(ParticipantData)
-        .values(participants)
-        .execute();
-      return participants;
+      return await this.sessionsRepository.save(participants);
     } catch (error) {
       console.log('Error guardando participantes');
     }
