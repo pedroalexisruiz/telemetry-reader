@@ -21,7 +21,7 @@ export class ParticipantsService {
   findOne(m_name: string, m_sessionUID: string): Promise<ParticipantData> {
     return this.sessionsRepository.findOneBy({
       m_name,
-      packetSessionData: { m_sessionUID },
+      m_sessionUID,
     });
   }
 
@@ -50,7 +50,7 @@ export class ParticipantsService {
     try {
       return await this.sessionsRepository.save(participants);
     } catch (error) {
-      console.log('Error saving participants');
+      console.log('Some participants already existed in bd');
     }
   }
 }

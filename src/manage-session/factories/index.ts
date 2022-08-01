@@ -10,6 +10,7 @@ import { ParticipantsDataFactory } from './participants-data.factory';
 import { PenaltyFactory } from './penalty.factory';
 import { SpeedTrapFactory } from './speed-trap.factory';
 import { StopGoPenaltyServedFactory } from './stop-go-penalty-served.factory';
+import { TyreStintHistoryDataFactory } from './tyre-stint-history-data.factory';
 
 export const FACTORIES = [
   ParticipantsDataFactory,
@@ -24,4 +25,5 @@ export const FACTORIES = [
   SpeedTrapFactory,
   DriveThroughPenaltyServedFactory,
   StopGoPenaltyServedFactory,
+  TyreStintHistoryDataFactory
 ];

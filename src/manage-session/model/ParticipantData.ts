@@ -9,19 +9,17 @@ import {
 import { PacketSessionData } from './PacketSessionData';
 
 @Entity({ name: 'f1_participants' })
-@Index(['packetSessionData.m_sessionUID', 'index_in_session'], { unique: true })
+@Index(['m_sessionUID', 'index_in_session'], { unique: true })
 export class ParticipantData {
   @PrimaryColumn()
-  index_in_session:number;
-  @PrimaryColumn()
+  index_in_session: number;
+  @Column()
   m_name: string; // Name of participant in UTF-8 format – null terminated
   // Will be truncated with … (U+2026) if too long
-  @ManyToOne(
-    () => PacketSessionData,
-    (session: PacketSessionData) => session.m_sessionUID,
-  )
+  @PrimaryColumn()
+  @ManyToOne(() => PacketSessionData)
   @JoinColumn({ name: 'm_sessionUID' })
-  public readonly packetSessionData: PacketSessionData;
+  m_sessionUID: string;
   @Column()
   m_aiControlled: number; // Whether the vehicle is AI (1) or Human (0) controlled
   @Column()
