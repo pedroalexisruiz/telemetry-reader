@@ -50,7 +50,7 @@ export class ParticipantsService {
     try {
       return await this.sessionsRepository.save(participants);
     } catch (error) {
-      console.log('Error guardando participantes');
+      console.log('Error saving participants');
     }
   }
 }
