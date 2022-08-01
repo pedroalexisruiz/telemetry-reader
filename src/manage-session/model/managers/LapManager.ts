@@ -8,7 +8,6 @@ import { LapDataService } from '../../services/lap.service';
 
 @Injectable()
 export class LapManager {
-  laps: LapData[] = [];
   lastListeningTime: Date;
 
   constructor(
@@ -37,23 +36,14 @@ export class LapManager {
         participantsQuantity > 0 &&
         currentSession.m_sessionUID === m_header.m_sessionUID
       ) {
-        const newStatus = this.lapDataFactory.toEntity({
+        const laps = this.lapDataFactory.toEntity({
           ...packetLapData,
           m_lapData: m_lapData.slice(0, participantsQuantity),
         });
-        console.log('Temporarily storing lap', currentDate);
-        this.laps = [...this.laps, ...newStatus];
+        console.log(`Saving ${laps.length} laps`);
+        await this.lapDataService.saveAll(laps);
         this.lastListeningTime = currentDate;
       }
     }
-  }
-
-  async saveLaps(): Promise<void> {
-    console.log(`Saving ${this.laps.length} laps`);
-    await this.lapDataService.saveAll(this.laps);
-  }
-
-  resetFlags(): void {
-    this.laps = [];
   }
 }

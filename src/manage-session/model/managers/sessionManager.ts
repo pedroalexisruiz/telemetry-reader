@@ -59,13 +59,17 @@ export class SessionManager {
     }
 
     if (packetID === PACKETS.sessionHistory) {
-      this.handleLaps(data);
+      this.handleHistoryLaps(data);
     }
     if (packetID === PACKETS.session) {
       this.handleSession(data);
     }
     if (packetID === PACKETS.carStatus) {
-      this.carStatusManager.handlePacket(data);
+      this.carStatusManager.handlePacket(
+        data,
+        this.session,
+        this.pilotsInSession,
+      );
     }
     if (packetID === PACKETS.carDamage) {
       this.carDamageManager.handlePacket(
@@ -96,7 +100,7 @@ export class SessionManager {
     }
   }
 
-  async handleLaps(data: any): Promise<void> {
+  async handleHistoryLaps(data: any): Promise<void> {
     if (this.saveLapTimes) {
       if (this.pilotsSaved < this.pilotsInSession) {
         this.laps.push(data);
@@ -110,30 +114,10 @@ export class SessionManager {
 
   async saveSessionData(): Promise<void> {
     this.session = null;
-    //console.log('Saving participants in DB');
-    //await this.participantsService.saveAll(this.participants);
     console.log('Saving final classification in DB');
     await this.classificationService.saveAll(this.finalClassification);
     console.log('Saving lap times in DB');
     await this.lapService.bulkSave(this.laps);
-    console.log('Saving car status in DB');
-    await this.carStatusManager.saveCarStatus();
-    this.carStatusManager.resetFlags();
-    console.log('Saving car damages in DB');
-    await this.carDamageManager.saveCarDamages();
-    this.carDamageManager.resetFlags();
-    console.log('Saving car motions in DB');
-    await this.carMotionManager.saveCarMotions();
-    this.carMotionManager.resetFlags();
-    console.log('Saving laps in DB');
-    await this.lapManager.saveLaps();
-    this.lapManager.resetFlags();
-    console.log('Saving telemetry in DB');
-    await this.carTelemetryManager.saveCarTelemetrys();
-    this.carTelemetryManager.resetFlags();
-    console.log('Saving events in DB');
-    await this.eventManager.saveEvents();
-    this.eventManager.resetFlags();
 
     try {
       // this.datasource.query(
@@ -190,10 +174,8 @@ export class SessionManager {
 
   async handleParticipants(data: any): Promise<void> {
     if (this.saveParticipants && this.session) {
-      this.saveParticipants = false;
       this.pilotsInSession = data.m_numActiveCars;
       this.participants = data;
-      this.carStatusManager.participantsQuantity = this.pilotsInSession;
       console.log('Saving participants in DB');
       await this.participantsService.saveAll(this.participants);
     }
@@ -215,6 +197,5 @@ export class SessionManager {
     this.laps = [];
     this.pilotsSaved = 0;
     this.pilotsInSession = 0;
-    this.carStatusManager.session = this.session;
   }
 }

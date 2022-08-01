@@ -5,8 +5,6 @@ import { PenaltyFactory as PenaltyFactory } from '../../factories/penalty.factor
 import { PenaltyService } from '../../services/penalty.service';
 import { PacketEventData } from 'src/manage-session/dto/PacketEventData';
 import { SpeedTrap } from '../SpeedTrap';
-import { DriveThroughPenaltyServed } from '../DriveThroughPenaltyServed';
-import { StopGoPenaltyServed } from '../StopGoPenaltyServed';
 import { SpeedTrapService } from 'src/manage-session/services/speed-trap.service';
 import { SpeedTrapFactory } from 'src/manage-session/factories/speed-trap.factory';
 import { DriveThroughPenaltyServedService } from 'src/manage-session/services/drive-through-penalty-served.service';
@@ -16,10 +14,6 @@ import { StopGoPenaltyServedFactory } from 'src/manage-session/factories/stop-go
 
 @Injectable()
 export class EventManager {
-  penalties: Penalty[] = [];
-  speedTraps: SpeedTrap[] = [];
-  driveThroughsServed: DriveThroughPenaltyServed[] = [];
-  stopAndGosServed: StopGoPenaltyServed[] = [];
   eventsToSave = ['SPTP', 'PENA', 'DTSV', 'SGSV'];
 
   constructor(
@@ -62,55 +56,35 @@ export class EventManager {
     }
   }
 
-  private handlePenalty(packetEvent: PacketEventData) {
+  private async handlePenalty(packetEvent: PacketEventData) {
     const penalty = this.penaltyFactory.toEntity({
       ...packetEvent,
     });
-    console.log('Temporarily storing penalty');
-    this.penalties.push(penalty);
+    console.log(`Saving penalty`);
+    await this.penaltyService.save(penalty);
   }
 
-  private handleSpeedTrap(packetEvent: PacketEventData) {
+  private async handleSpeedTrap(packetEvent: PacketEventData) {
     const speedTrap = this.speedTrapFactory.toEntity({
       ...packetEvent,
     });
-    console.log('Temporarily storing speedTrap');
-    this.speedTraps.push(speedTrap);
+    console.log(`Saving speedTrap`);
+    await this.speedTrapService.save(speedTrap);
   }
 
-  private handleDriveThroughServed(packetEvent: PacketEventData) {
+  private async handleDriveThroughServed(packetEvent: PacketEventData) {
     const driveThroughServed = this.driveThroughServedFactory.toEntity({
       ...packetEvent,
     });
-    console.log('Temporarily storing drive Through Served');
-    this.driveThroughsServed.push(driveThroughServed);
+    console.log(`Saving driveThroughServed`);
+    await this.driveThroughServedService.save(driveThroughServed);
   }
 
-  private handleStopAndGoServed(packetEvent: PacketEventData) {
+  private async handleStopAndGoServed(packetEvent: PacketEventData) {
     const stopAndGo = this.stopAndGoServedFactory.toEntity({
       ...packetEvent,
     });
-    console.log('Temporarily storing speedTrap');
-    this.stopAndGosServed.push(stopAndGo);
-  }
-
-  async saveEvents(): Promise<void> {
-    console.log(`Saving ${this.penalties.length} penalties`);
-    await this.penaltyService.saveAll(this.penalties);
-    console.log(`Saving ${this.speedTraps.length} speedTraps`);
-    await this.speedTrapService.saveAll(this.speedTraps);
-    console.log(
-      `Saving ${this.driveThroughsServed.length} driveThroughsServed`,
-    );
-    await this.driveThroughServedService.saveAll(this.driveThroughsServed);
-    console.log(`Saving ${this.stopAndGosServed.length} stopAndGosServed`);
-    await this.stopAndGoServedService.saveAll(this.stopAndGosServed);
-  }
-
-  resetFlags(): void {
-    this.penalties = [];
-    this.speedTraps = [];
-    this.driveThroughsServed = [];
-    this.stopAndGosServed = [];
+    console.log(`Saving stopAndGosServed`);
+    await this.stopAndGoServedService.save(stopAndGo);
   }
 }
