@@ -24,10 +24,11 @@ export class PacketSessionDataService {
 
   async save(packetSessionData: PacketSessionData): Promise<PacketSessionData> {
     try {
-      return this.sessionsRepository.save(packetSessionData);
+      return (await (
+        await this.sessionsRepository.insert(packetSessionData)
+      ).generatedMaps[0]) as PacketSessionData;
     } catch (error) {
-      console.log(error);
-      console.log('Error guardando sesión');
+      console.log('The session already exists in bd');
     }
   }
 }
