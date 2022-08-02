@@ -48,7 +48,13 @@ export class ParticipantsService {
       packetParticipantsData,
     );
     try {
-      return await this.sessionsRepository.save(participants);
+      await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(ParticipantData)
+        .values(participants)
+        .execute();
+      return participants;
     } catch (error) {
       console.log('Some participants already existed in bd');
     }
