@@ -12,12 +12,12 @@ export class LapData {
   @PrimaryGeneratedColumn('increment')
   public id_lap_data?: number;
   @Column()
-  @ManyToOne(() => ParticipantData)
-  @JoinColumn({ name: 'index_in_session' })
+  //@ManyToOne(() => ParticipantData)
+  //@JoinColumn({ name: 'index_in_session' })
   index_in_session: number;
   @Column()
-  @ManyToOne(() => ParticipantData)
-  @JoinColumn({ name: 'm_sessionUID' })
+  //@ManyToOne(() => ParticipantData)
+  //@JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;
   @Column()
   m_sessionTime: number;

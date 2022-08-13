@@ -54,17 +54,7 @@ export class ParticipantsService {
         .into(ParticipantData)
         .values(participants)
         .orUpdate(
-          [
-            'm_name',
-            'm_aiControlled',
-            'm_driverId',
-            'm_networkId',
-            'm_teamId',
-            'm_myTeam',
-            'm_raceNumber',
-            'm_nationality',
-            'm_yourTelemetry',
-          ],
+          ['m_name', 'm_aiControlled'],
           ['index_in_session', 'm_sessionUID'],
         )
         .execute();

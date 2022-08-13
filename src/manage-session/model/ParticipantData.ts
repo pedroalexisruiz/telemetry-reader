@@ -5,18 +5,21 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PacketSessionData } from './PacketSessionData';
 
 @Entity({ name: 'f1_participants' })
 @Index(['m_sessionUID', 'index_in_session'], { unique: true })
 export class ParticipantData {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('increment')
+  public id_participantes?: number;
+  @Column()
   index_in_session: number;
   @Column()
   m_name: string; // Name of participant in UTF-8 format – null terminated
   // Will be truncated with … (U+2026) if too long
-  @PrimaryColumn()
+  @Column()
   @ManyToOne(() => PacketSessionData)
   @JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;

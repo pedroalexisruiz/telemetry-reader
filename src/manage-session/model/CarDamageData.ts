@@ -12,12 +12,12 @@ export class CarDamageData {
   @PrimaryGeneratedColumn('increment')
   public id_car_damage?: number;
   @Column()
-  @ManyToOne(() => ParticipantData)
-  @JoinColumn({ name: 'index_in_session' })
+  //@ManyToOne(() => ParticipantData)
+  //@JoinColumn({ name: 'index_in_session' })
   index_in_session: number;
   @Column()
-  @ManyToOne(() => ParticipantData)
-  @JoinColumn({ name: 'm_sessionUID' })
+  //@ManyToOne(() => ParticipantData)
+  //@JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;
   @Column()
   m_sessionTime: number;

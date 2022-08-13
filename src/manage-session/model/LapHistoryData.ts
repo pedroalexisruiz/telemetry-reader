@@ -6,21 +6,18 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { FinalClassificationData } from './ClassificationData';
+import { ParticipantData } from './ParticipantData';
 
 @Entity({ name: 'f1_lap_history_data' })
 @Index(['m_carIdx', 'm_sessionUID', 'lap_number'], { unique: true })
 export class LapHistoryData {
   @PrimaryColumn()
-  @ManyToOne(() => FinalClassificationData)
-  @JoinColumn({ name: 'm_sessionUID' })
+  //@ManyToOne(() => ParticipantData)
+  //@JoinColumn({ name: 'm_sessionUID' })
   m_sessionUID: string;
   @PrimaryColumn()
-  @ManyToOne(
-    () => FinalClassificationData,
-    (session: FinalClassificationData) => session.index_in_session,
-  )
-  @JoinColumn({ name: 'm_carIdx' })
+  //@ManyToOne(() => ParticipantData)
+  //@JoinColumn({ name: 'm_carIdx' })
   m_carIdx: number; // Index of the car this lap data relates to
   @PrimaryColumn()
   lap_number: number; //Lap number
