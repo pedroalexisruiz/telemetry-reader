@@ -53,10 +53,6 @@ export class ParticipantsService {
         .insert()
         .into(ParticipantData)
         .values(participants)
-        .orUpdate(
-          ['m_name', 'm_aiControlled'],
-          ['index_in_session', 'm_sessionUID'],
-        )
         .execute();
       return participants;
     } catch (error) {
