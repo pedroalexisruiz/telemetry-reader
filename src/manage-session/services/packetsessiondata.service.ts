@@ -28,7 +28,12 @@ export class PacketSessionDataService {
         await this.sessionsRepository.insert(packetSessionData)
       ).generatedMaps[0]) as PacketSessionData;
     } catch (error) {
-      console.log('The session already exists in bd');
+      console.log(
+        `The session already exists in bd, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
   }
 }

@@ -28,7 +28,9 @@ export class CarStatusDataService {
       return this.carStatusRepository.save(carStatusData);
     } catch (error) {
       console.log(error);
-      console.log('Error guardando status de vehículo');
+      console.log(
+        `Error saving status, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 
@@ -43,7 +45,9 @@ export class CarStatusDataService {
       return carStatuses;
     } catch (error) {
       console.log('error', error);
-      console.log('Error guardando status de vehículos');
+      console.log(
+        `Error saving statuses, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 }

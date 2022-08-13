@@ -46,8 +46,13 @@ export class CarDamageManager {
     }
   }
 
-  async saveCarDamages(carsDamages:CarDamageData[]): Promise<void> {
-    console.log(`Saving ${carsDamages.length} vehicle damages`);
+  async saveCarDamages(carsDamages: CarDamageData[]): Promise<void> {
+    console.log(
+      `Saving ${carsDamages.length} vehicle damages, port: ${parseInt(
+        process.env.UDP_PORT,
+        10,
+      )}`,
+    );
     await this.carDamageDataService.saveAll(carsDamages);
   }
 }

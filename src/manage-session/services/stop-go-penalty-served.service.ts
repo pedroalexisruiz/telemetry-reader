@@ -32,7 +32,12 @@ export class StopGoPenaltyServedService {
       return this.stopGoPenaltyServedRepository.save(stopGoPenaltyServed);
     } catch (error) {
       console.log(error);
-      console.log('Error saving stopGoPenaltyServed');
+      console.log(
+        `Error saving stopGoPenaltyServed, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
   }
 
@@ -47,7 +52,12 @@ export class StopGoPenaltyServedService {
       return laps;
     } catch (error) {
       console.log('error', error);
-      console.log('Error saving stop Go Penalties Served');
+      console.log(
+        `Error saving stop Go Penalties Served, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
   }
 }

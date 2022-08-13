@@ -28,7 +28,9 @@ export class PenaltyService {
       return this.penaltyRepository.save(penalty);
     } catch (error) {
       console.log(error);
-      console.log('Error saving penalty');
+      console.log(
+        `TError saving penalty, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 
@@ -43,7 +45,9 @@ export class PenaltyService {
       return laps;
     } catch (error) {
       console.log('error', error);
-      console.log('Error saving penalties');
+      console.log(
+        `TError saving penalties, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 }

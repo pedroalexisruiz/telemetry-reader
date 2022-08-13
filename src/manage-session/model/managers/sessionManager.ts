@@ -114,9 +114,19 @@ export class SessionManager {
 
   async saveSessionData(): Promise<void> {
     this.session = null;
-    console.log('Saving final classification in DB');
+    console.log(
+      `Saving final classification in DB, port: ${parseInt(
+        process.env.UDP_PORT,
+        10,
+      )}`,
+    );
     await this.classificationService.saveAll(this.finalClassification);
-    console.log('Saving lap times and tyre stints in DB');
+    console.log(
+      `Saving lap times and tyre stints in DB, port: ${parseInt(
+        process.env.UDP_PORT,
+        10,
+      )}`,
+    );
     await this.lapService.bulkSave(this.laps);
 
     try {
@@ -154,19 +164,34 @@ export class SessionManager {
       if (calendar) {
         calendar.is_saved = true;
         await this.calendarService.save(calendar);
-        console.log('Sesión enlazada al calendario');
+        console.log(
+          `Sesión enlazada al calendario, port: ${parseInt(
+            process.env.UDP_PORT,
+            10,
+          )}`,
+        );
       } else {
         console.log(
-          'No existía calendario para esta sesión, deberás enlazarla manualmente',
+          `No existía calendario para esta sesión, deberás enlazarla manualmente, port: ${parseInt(
+            process.env.UDP_PORT,
+            10,
+          )}`,
         );
       }
       try {
-        console.log('Saving session in BD');
+        console.log(
+          `Saving session in BD, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+        );
         await this.packetSessionDataService.save(session);
         this.session = session;
         this.resetSessionFlags();
       } catch (error) {
-        console.log('Error saving session in BD');
+        console.log(
+          `Error saving session in BD, port: ${parseInt(
+            process.env.UDP_PORT,
+            10,
+          )}`,
+        );
         console.log(error);
       }
     }
@@ -175,7 +200,12 @@ export class SessionManager {
   async handleParticipants(data: any): Promise<void> {
     if (this.saveParticipants && this.session) {
       this.participants = data;
-      console.log('Saving participants in DB');
+      console.log(
+        `Saving participants in DB, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
       await this.participantsService.saveAll(this.participants);
       this.pilotsInSession = data.m_numActiveCars;
     }
@@ -183,7 +213,12 @@ export class SessionManager {
 
   async handleResults(data: PacketFinalClassificationData): Promise<void> {
     if (this.saveResults) {
-      console.log('temporarily storing results');
+      console.log(
+        `temporarily storing results, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
       this.finalClassification = data;
       this.saveResults = false;
       this.saveLapTimes = true;

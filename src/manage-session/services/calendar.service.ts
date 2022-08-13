@@ -30,8 +30,9 @@ export class CalendarService {
     try {
       return this.calendarRepository.save(calendar);
     } catch (error) {
-      console.log(error);
-      console.log('Error saving calendar');
+      console.log(
+        `Error saving calendar, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 }

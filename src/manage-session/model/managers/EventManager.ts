@@ -60,7 +60,7 @@ export class EventManager {
     const penalty = this.penaltyFactory.toEntity({
       ...packetEvent,
     });
-    console.log(`Saving penalty`);
+    console.log(`Saving penalty, port: ${parseInt(process.env.UDP_PORT, 10)}`);
     await this.penaltyService.save(penalty);
   }
 
@@ -68,7 +68,10 @@ export class EventManager {
     const speedTrap = this.speedTrapFactory.toEntity({
       ...packetEvent,
     });
-    console.log(`Saving speedTrap`);
+    console.log(`Saving speedTrap, port: ${parseInt(
+      process.env.UDP_PORT,
+      10,
+    )}`);
     await this.speedTrapService.save(speedTrap);
   }
 
@@ -76,7 +79,10 @@ export class EventManager {
     const driveThroughServed = this.driveThroughServedFactory.toEntity({
       ...packetEvent,
     });
-    console.log(`Saving driveThroughServed`);
+    console.log(`Saving driveThroughServed, port: ${parseInt(
+      process.env.UDP_PORT,
+      10,
+    )}`);
     await this.driveThroughServedService.save(driveThroughServed);
   }
 
@@ -84,7 +90,10 @@ export class EventManager {
     const stopAndGo = this.stopAndGoServedFactory.toEntity({
       ...packetEvent,
     });
-    console.log(`Saving stopAndGosServed`);
+    console.log(`Saving stopAndGosServed, port: ${parseInt(
+      process.env.UDP_PORT,
+      10,
+    )}`);
     await this.stopAndGoServedService.save(stopAndGo);
   }
 }

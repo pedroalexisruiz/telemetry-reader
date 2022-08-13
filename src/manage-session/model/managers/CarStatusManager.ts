@@ -47,7 +47,12 @@ export class CarStatusManager {
   }
 
   async saveCarStatus(carsStatus: CarStatusData[]): Promise<void> {
-    console.log(`Guardo ${carsStatus.length} status de vehículo`);
+    console.log(
+      `Guardo ${carsStatus.length} status de vehículo, port: ${parseInt(
+        process.env.UDP_PORT,
+        10,
+      )}`,
+    );
     await this.carStatusDataService.saveAll(carsStatus);
   }
 }

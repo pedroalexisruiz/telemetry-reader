@@ -28,7 +28,9 @@ export class SpeedTrapService {
       return this.speedTrapRepository.save(speedTrap);
     } catch (error) {
       console.log(error);
-      console.log('Error saving speedTrap');
+      console.log(
+        `Error saving speedTrap, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 
@@ -43,7 +45,9 @@ export class SpeedTrapService {
       return laps;
     } catch (error) {
       console.log('error', error);
-      console.log('Error saving speed traps');
+      console.log(
+        `Error saving speedTraps, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 }

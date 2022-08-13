@@ -64,7 +64,12 @@ export class ClassificationService {
       return result.generatedMaps as FinalClassificationData[];
     } catch (error) {
       console.log(error);
-      console.log('Error guardando resultados de carrera');
+      console.log(
+        `Error saving race results, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
   }
 }

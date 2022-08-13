@@ -47,7 +47,10 @@ export class CarTelemetryManager {
   }
 
   async saveCarTelemetrys(carTelemetrys: CarTelemetryData[]): Promise<void> {
-    console.log(`Saving ${carTelemetrys.length} vehicle telemetrys`);
+    console.log(`Saving ${carTelemetrys.length} vehicle telemetrys, port: ${parseInt(
+      process.env.UDP_PORT,
+      10,
+    )}`);
     await this.carTelemetryDataService.saveAll(carTelemetrys);
   }
 }

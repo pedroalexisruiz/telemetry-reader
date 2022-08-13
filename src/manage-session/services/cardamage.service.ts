@@ -28,7 +28,9 @@ export class CarDamageDataService {
       return this.carDamageRepository.save(carDamageData);
     } catch (error) {
       console.log(error);
-      console.log('Error saving car damage');
+      console.log(
+        `Error saving car damage, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 
@@ -43,7 +45,9 @@ export class CarDamageDataService {
       return carDamages;
     } catch (error) {
       console.log('error', error);
-      console.log('Error savings cars damage');
+      console.log(
+        `Error saving car damages, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 }

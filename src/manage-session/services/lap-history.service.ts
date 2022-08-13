@@ -54,14 +54,21 @@ export class LapHistoryService {
       tyreStints = await this.tyreStintRepository.save(tyreStints);
     } catch (error) {
       console.log(error);
-      console.log('Error saving tyre stints');
+      console.log(
+        `Error saving tyre stints, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
 
     try {
       laps = await this.lapHistoryRepossitory.save(laps);
     } catch (error) {
       console.log(error);
-      console.log('Error saving laps history');
+      console.log(
+        `Error saving laps history, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
 
     return { laps, tyreStints };

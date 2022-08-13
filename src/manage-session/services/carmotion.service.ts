@@ -28,7 +28,9 @@ export class CarMotionDataService {
       return this.carMotionRepository.save(carMotionData);
     } catch (error) {
       console.log(error);
-      console.log('Error saving motion');
+      console.log(
+        `Error saving motion, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 
@@ -43,7 +45,9 @@ export class CarMotionDataService {
       return carMotions;
     } catch (error) {
       console.log('error', error);
-      console.log('Error saving multiple motions');
+      console.log(
+        `Error saving motion, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 }

@@ -40,7 +40,10 @@ export class LapManager {
           ...packetLapData,
           m_lapData: m_lapData.slice(0, participantsQuantity),
         });
-        console.log(`Saving ${laps.length} laps`);
+        console.log(`Saving ${laps.length} laps, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`);
         await this.lapDataService.saveAll(laps);
         this.lastListeningTime = currentDate;
       }

@@ -38,7 +38,12 @@ export class DriveThroughPenaltyServedService {
       );
     } catch (error) {
       console.log(error);
-      console.log('Error saving driveThroughPenaltyServed');
+      console.log(
+        `Error saving driveThroughPenaltyServed, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
   }
 
@@ -55,7 +60,12 @@ export class DriveThroughPenaltyServedService {
       return laps;
     } catch (error) {
       console.log('error', error);
-      console.log('Error saving drive Through Penalties Served');
+      console.log(
+        `Error saving driveThroughPenaltiesServed, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
   }
 }

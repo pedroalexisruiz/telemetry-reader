@@ -28,7 +28,9 @@ export class LapDataService {
       return this.lapRepository.save(lapData);
     } catch (error) {
       console.log(error);
-      console.log('Error saving lap');
+      console.log(
+        `Error saving lap, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 
@@ -43,7 +45,9 @@ export class LapDataService {
       return laps;
     } catch (error) {
       console.log('error', error);
-      console.log('Error saving laps');
+      console.log(
+        `Error saving laps, port: ${parseInt(process.env.UDP_PORT, 10)}`,
+      );
     }
   }
 }

@@ -28,7 +28,12 @@ export class CarTelemetryDataService {
       return this.carTelemetryRepository.save(carTelemetryData);
     } catch (error) {
       console.log(error);
-      console.log('Error saving car telemetry');
+      console.log(
+        `Error saving car telemetry, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
   }
 
@@ -45,7 +50,12 @@ export class CarTelemetryDataService {
       return carTelemetrys;
     } catch (error) {
       console.log('error', error);
-      console.log('Error savings cars telemetry');
+      console.log(
+        `Error saving car telemetrys, port: ${parseInt(
+          process.env.UDP_PORT,
+          10,
+        )}`,
+      );
     }
   }
 }

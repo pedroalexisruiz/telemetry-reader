@@ -47,7 +47,10 @@ export class CarMotionManager {
   }
 
   async saveCarMotions(carMotions:CarMotionData[]): Promise<void> {
-    console.log(`Saving ${carMotions.length} vehicle motions`);
+    console.log(`Saving ${carMotions.length} vehicle motions, port: ${parseInt(
+      process.env.UDP_PORT,
+      10,
+    )}`);
     await this.carMotionDataService.saveAll(carMotions);
   }
 }
