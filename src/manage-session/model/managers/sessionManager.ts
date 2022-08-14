@@ -23,7 +23,7 @@ export class SessionManager {
   saveParticipants = true;
   saveResults = true;
   saveLapTimes = false;
-  pilotsInSession: number = 0;
+  pilotsInSession: number = 20;
   pilotsSaved: number = 0;
   session: PacketSessionData;
   participants: PacketParticipantsData;
@@ -207,7 +207,6 @@ export class SessionManager {
         )}`,
       );
       await this.participantsService.saveAll(this.participants);
-      this.pilotsInSession = data.m_numActiveCars;
     }
   }
 
@@ -231,6 +230,5 @@ export class SessionManager {
     this.saveLapTimes = false;
     this.laps = [];
     this.pilotsSaved = 0;
-    this.pilotsInSession = 0;
   }
 }
